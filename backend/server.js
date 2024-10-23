@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const { getOrders, createOrder, updateOrder, deleteOrder } = require('./controllers/orderController');
 const { getInventory, createInventoryItem, updateInventoryItem, deleteInventoryItem } = require('./controllers/inventoryController');
+const {getCustomers, createCustomer, updateCustomer, deleteCustomer} = require('./controllers/crmController');
 
 const app = express();
 app.use(cors());
@@ -9,7 +10,7 @@ app.use(express.json());
 
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Order Routes
 app.get('/api/orders', getOrders);
