@@ -10,7 +10,7 @@ app.use(express.json());
 
 
 
-const PORT = process.env.PORT || 3306;
+const PORT = process.env.PORT || 5001;
 
 // Order Routes
 app.get('/api/orders', getOrders);

@@ -5,6 +5,7 @@ const db = mysql.createConnection({
   user: 'meowhost',
   password: 'cmscms@123',
   database: 'catering_system',
+  port: 3306
 });
 
 db.connect((err) => {

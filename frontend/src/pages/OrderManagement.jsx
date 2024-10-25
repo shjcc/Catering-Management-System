@@ -9,13 +9,13 @@ const OrderManagement = () => {
     const [editingOrder, setEditingOrder] = useState(null);
 
     const fetchOrders = async () => {
-        const response = await fetch('http://localhost:3306/api/orders');
+        const response = await fetch('http://localhost:5001/api/orders');
         const data = await response.json();
         setOrders(data);
     };
 
     const addOrder = async (newOrder) => {
-        const response = await fetch('http://localhost:3306/api/orders', {
+        const response = await fetch('http://localhost:5001/api/orders', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ const OrderManagement = () => {
     };
 
     const deleteOrder = async (id) => {
-        const response = await fetch(`http://localhost:3306/api/orders/${id}`, {
+        const response = await fetch(`http://localhost:5001/api/orders/${id}`, {
             method: 'DELETE',
         });
         if (response.ok) {
@@ -37,7 +37,7 @@ const OrderManagement = () => {
     };
 
     const updateOrder = async (id, updatedOrder) => {
-        const response = await fetch(`http://localhost:3306/api/orders/${id}`, {
+        const response = await fetch(`http://localhost:5001/api/orders/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
