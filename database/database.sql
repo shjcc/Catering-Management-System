@@ -1,8 +1,6 @@
--- Only create the database if it does not exist
 CREATE DATABASE IF NOT EXISTS catering_system;
 USE catering_system;
 
--- Create the orders table
 CREATE TABLE IF NOT EXISTS orders (
   id INT AUTO_INCREMENT PRIMARY KEY,
   customerName VARCHAR(100),
@@ -10,7 +8,6 @@ CREATE TABLE IF NOT EXISTS orders (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create the ingredients table
 CREATE TABLE IF NOT EXISTS ingredients (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100),
@@ -18,7 +15,6 @@ CREATE TABLE IF NOT EXISTS ingredients (
   expiry DATE
 );
 
--- Create the recipes table
 CREATE TABLE IF NOT EXISTS recipes (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
@@ -26,7 +22,6 @@ CREATE TABLE IF NOT EXISTS recipes (
   total_quantity INT
 );
 
--- Create the recipe_ingredients table with foreign keys
 CREATE TABLE IF NOT EXISTS recipe_ingredients (
   id INT AUTO_INCREMENT PRIMARY KEY,
   recipe_id INT,
@@ -36,7 +31,6 @@ CREATE TABLE IF NOT EXISTS recipe_ingredients (
   FOREIGN KEY (ingredient_id) REFERENCES ingredients(id)
 );
 
--- Create the workflows table with foreign key
 CREATE TABLE IF NOT EXISTS workflows (
   id INT AUTO_INCREMENT PRIMARY KEY,
   recipe_id INT,
@@ -45,7 +39,6 @@ CREATE TABLE IF NOT EXISTS workflows (
   FOREIGN KEY (recipe_id) REFERENCES recipes(id)
 );
 
--- Create the wasted_items table with foreign key
 CREATE TABLE IF NOT EXISTS wasted_items (
   id INT AUTO_INCREMENT PRIMARY KEY,
   ingredient_id INT,

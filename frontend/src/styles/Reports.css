@@ -63,6 +63,10 @@ button {
     margin-top: 20px;
 }
 
+button:hover {
+    background-color: #2980b9; /* Darker shade on hover */
+}
+
 /* Separator line for clarity */
 .separator {
     margin: 20px 0; /* Space above and below the separator */
@@ -78,6 +82,7 @@ button {
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
 }
 
 /* Error message styling */
@@ -91,4 +96,55 @@ button {
 /* Chart container */
 .chart-container {
     margin-top: 30px; /* Space above the chart */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px; /* Minimum height for charts */
+    box-sizing: border-box;
+}
+
+/* Flex container for multiple charts */
+.chart-flex-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping if there are multiple charts */
+    gap: 30px; /* Space between charts */
+    justify-content: space-around; /* Space out the charts evenly */
+    margin-top: 20px;
+}
+
+/* Individual chart box */
+.chart-box {
+    flex: 1; /* Charts take up equal space */
+    min-width: 300px; /* Minimum width for each chart */
+    max-width: 600px; /* Maximum width to prevent overly large charts */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+/* Title styling for each chart */
+.chart-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    color: #34495e;
+    margin-bottom: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .search-forms-container {
+        flex-direction: column;
+    }
+
+    .chart-flex-container {
+        flex-direction: column;
+        align-items: center; /* Center charts on smaller screens */
+    }
 }

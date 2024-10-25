@@ -1,9 +1,9 @@
 const mysql = require('mysql2');
 
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'MeowManagement123',
+  host: 'cms-meow-db.mysql.database.azure.com',
+  user: 'meowhost',
+  password: 'cmscms@123',
   database: 'catering_system',
 });
 

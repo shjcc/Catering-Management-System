@@ -11,7 +11,7 @@ const CRM = () => {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/customers');
+        const response = await fetch('http://localhost:3306/api/customers');
         const data = await response.json();
         setCustomers(data);
       } catch (error) {
@@ -27,7 +27,7 @@ const CRM = () => {
     if (isEditing) {
       // Update existing customer
       try {
-        await fetch(`http://localhost:5001/api/customers/${currentCustomer.id}`, {
+        await fetch(`http://localhost:3306/api/customers/${currentCustomer.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(currentCustomer),
@@ -43,7 +43,7 @@ const CRM = () => {
     } else {
       // Add new customer
       try {
-        const response = await fetch('http://localhost:5001/api/customers', {
+        const response = await fetch('http://localhost:3306/api/customers', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(currentCustomer),
@@ -67,7 +67,7 @@ const CRM = () => {
   // Delete customer
   const handleDelete = async (id) => {
     try {
-      await fetch(`http://localhost:5001/api/customers/${id}`, { method: 'DELETE' });
+      await fetch(`http://localhost:3306/api/customers/${id}`, { method: 'DELETE' });
       const updatedCustomers = customers.filter(customer => customer.id !== id);
       setCustomers(updatedCustomers);
     } catch (error) {

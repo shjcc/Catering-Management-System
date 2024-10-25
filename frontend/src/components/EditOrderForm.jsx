@@ -3,7 +3,7 @@ import "../styles/Order.css";
 
 const EditOrderForm = ({ order, onUpdateOrder, onCancel }) => {
     const [customerName, setCustomerName] = useState(order.customerName);
-    const [status, setStatus] = useState(order.status); // Use state for the dropdown
+    const [status, setStatus] = useState(order.status); 
     const [orderType, setOrderType] = useState(order.orderType);
     const [scheduledDate, setScheduledDate] = useState(order.scheduledDate);
     const [scheduledTime, setScheduledTime] = useState(order.scheduledTime);
