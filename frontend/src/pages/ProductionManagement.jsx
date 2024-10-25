@@ -43,7 +43,6 @@ const ProductionManagement = () => {
 
     return (
         <div className="production-container">
-            <h2>Production Management</h2>
             <div className="production-content">
                 <form className="production-form" onSubmit={handleSubmit}>
                     <div>

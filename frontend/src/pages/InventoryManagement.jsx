@@ -129,7 +129,6 @@ const InventoryManagement = () => {
 
   return (
     <div className="inventory-management">
-      <h1> Inventory Management </h1>
 
       <div className="container">
         <div className="add-ingredient">

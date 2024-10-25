@@ -1,72 +1,69 @@
-import React, { useState, useEffect } from 'react';
-import dayjs from 'dayjs';
+import React, { useState } from 'react';
 import "../styles/Order.css";
 
 const EditOrderForm = ({ order, onUpdateOrder, onCancel }) => {
-    const [customerName, setCustomerName] = useState('');
-    const [status, setStatus] = useState('');
-    const [orderType, setOrderType] = useState('Pickup');
-    const [scheduledDate, setScheduledDate] = useState('');
-    const [scheduledTime, setScheduledTime] = useState('');
-
-    useEffect(() => {
-        if (order) {
-            setCustomerName(order.customerName);
-            setStatus(order.status);
-            setOrderType(order.orderType);
-            const formattedDate = dayjs(order.scheduledDate).format('YYYY-MM-DD'); 
-            setScheduledDate(formattedDate); 
-            setScheduledTime(order.scheduledTime); 
-        }
-    }, [order]);
+    const [customerName, setCustomerName] = useState(order.customerName);
+    const [status, setStatus] = useState(order.status); // Use state for the dropdown
+    const [orderType, setOrderType] = useState(order.orderType);
+    const [scheduledDate, setScheduledDate] = useState(order.scheduledDate);
+    const [scheduledTime, setScheduledTime] = useState(order.scheduledTime);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formattedDate = dayjs(scheduledDate).format('YYYY-MM-DD'); 
-
-        const updatedOrder = { customerName, status, orderType, scheduledDate: formattedDate, scheduledTime };
+        const updatedOrder = { customerName, status, orderType, scheduledDate, scheduledTime };
         await onUpdateOrder(order.id, updatedOrder);
-        onCancel();
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="order-form">
             <input
                 type="text"
                 placeholder="Customer Name"
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
                 required
+                className="order-input"
             />
-            <input
-                type="text"
-                placeholder="Status"
+            
+            {/* Dropdown for status */}
+            <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
                 required
-            />
-            <select
+                className="order-select"
+            >
+                <option value="pending">Pending</option>
+                <option value="completed">Completed</option>
+                <option value="delivered">Delivered</option>
+            </select>
+
+            <select 
                 value={orderType}
                 onChange={(e) => setOrderType(e.target.value)}
                 required
+                className="order-select"
             >
                 <option value="Pickup">Pickup</option>
                 <option value="Delivery">Delivery</option>
             </select>
+            
             <input
                 type="date"
                 value={scheduledDate}
                 onChange={(e) => setScheduledDate(e.target.value)}
                 required
+                className="order-date"
             />
             <input
                 type="time"
                 value={scheduledTime}
                 onChange={(e) => setScheduledTime(e.target.value)}
                 required
+                className="order-time"
             />
-            <button type="submit">Update Order</button>
-            <button type="button" onClick={onCancel}>Cancel</button>
+            
+            <button type="submit" className="order-button">Update Order</button>
+            <button type="button" onClick={onCancel} className="cancel-button">Cancel</button>
         </form>
     );
 };

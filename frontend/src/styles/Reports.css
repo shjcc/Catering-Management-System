@@ -2,8 +2,8 @@
 .reports-container {
     display: flex;
     flex-direction: column; /* Stack elements vertically */
+    margin: 40px auto;
     padding: 20px;
-    gap: 30px; /* Gap between sections */
     box-sizing: border-box;
     max-width: 1200px;
     margin: 0 auto;
