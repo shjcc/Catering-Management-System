@@ -5,7 +5,10 @@ const db = mysql.createConnection({
   user: 'meowhost',
   password: 'cmscms@123',
   database: 'catering_system',
-  port: 3306
+  port: 3306,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 db.connect((err) => {
