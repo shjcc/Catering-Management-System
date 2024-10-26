@@ -10,7 +10,6 @@
     box-sizing: border-box;
 }
 
-
 /* Alert and summary boxes */
 .alert-box, .summary-box {
     background-color: #fff;
@@ -20,14 +19,15 @@
     transition: transform 0.2s ease;
 }
 
+
 .alert-box:hover, .summary-box:hover {
-    transform: scale(1.02);
+    transform: scale(1.03);
 }
 
 .alert-box h3, .summary-box h3 {
     font-size: 1.2em;
     margin-bottom: 10px;
-    color: #4A5A32; /* Dark green heading color */
+    color: #8F5652; 
 }
 
 ul {
@@ -39,22 +39,24 @@ ul {
 li {
     padding: 8px 0;
     border-bottom: 1px solid #EEE;
-    color: #3B3B3B; /* Dark grey text */
+    color: #3B3B3B; 
 }
 
 li:last-child {
     border-bottom: none;
+    
 }
 
 /* Styling for the total orders box */
 .summary-box {
     text-align: center;
     font-size: 1.5em;
-    background-color: #e4e7d34d; /* Light green background */
+    background-color: #e4e7d34d; 
 }
 
 .summary-box p {
     font-size: 2em;
-    color: #4A5A32; /* Dark green text */
+    color: #8F5652; 
     margin: 10px 0;
 }
+
