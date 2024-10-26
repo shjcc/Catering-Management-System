@@ -12,43 +12,59 @@ const OrderManagement = () => {
     const [editingOrder, setEditingOrder] = useState(null);
 
     const fetchOrders = async () => {
-        const response = await fetch(API_URL);
-        const data = await response.json();
-        setOrders(data);
+        try {
+            const response = await fetch(API_URL);
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${await response.text()}`);
+            }
+            const data = await response.json();
+            setOrders(data);
+        } catch (error) {
+            console.error("Error fetching orders:", error.message);
+        }
     };
 
     const addOrder = async (newOrder) => {
-        const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newOrder),
-        });
-        if (response.ok) {
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newOrder),
+            });
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${await response.text()}`);
+            }
             fetchOrders();
+        } catch (error) {
+            console.error("Error adding order:", error.message);
         }
     };
 
     const deleteOrder = async (id) => {
-        const response = await fetch(`${API_URL}/${id}`, {
-            method: 'DELETE',
-        });
-        if (response.ok) {
+        try {
+            const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${await response.text()}`);
+            }
             fetchOrders();
+        } catch (error) {
+            console.error("Error deleting order:", error.message);
         }
     };
 
     const updateOrder = async (id, updatedOrder) => {
-        const response = await fetch(`${API_URL}/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedOrder),
-        });
-        if (response.ok) {
+        try {
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedOrder),
+            });
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${await response.text()}`);
+            }
             fetchOrders();
+        } catch (error) {
+            console.error("Error updating order:", error.message);
         }
     };
 
