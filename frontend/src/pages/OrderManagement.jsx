@@ -4,18 +4,21 @@ import OrderList from '../components/OrderList.jsx';
 import EditOrderForm from '../components/EditOrderForm.jsx';
 import "../styles/Order.css";
 
+const isProduction = import.meta.env.MODE === 'production';
+const API_URL = isProduction ? 'https://cms-backend-ewuo.onrender.com/api/orders' : 'http://localhost:5001/api/orders';
+
 const OrderManagement = () => {
     const [orders, setOrders] = useState([]);
     const [editingOrder, setEditingOrder] = useState(null);
 
     const fetchOrders = async () => {
-        const response = await fetch('http://localhost:5001/api/orders');
+        const response = await fetch(API_URL);
         const data = await response.json();
         setOrders(data);
     };
 
     const addOrder = async (newOrder) => {
-        const response = await fetch('http://localhost:5001/api/orders', {
+        const response = await fetch(API_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -28,7 +31,7 @@ const OrderManagement = () => {
     };
 
     const deleteOrder = async (id) => {
-        const response = await fetch(`http://localhost:5001/api/orders/${id}`, {
+        const response = await fetch(`${API_URL}/${id}`, {
             method: 'DELETE',
         });
         if (response.ok) {
@@ -37,7 +40,7 @@ const OrderManagement = () => {
     };
 
     const updateOrder = async (id, updatedOrder) => {
-        const response = await fetch(`http://localhost:5001/api/orders/${id}`, {
+        const response = await fetch(`${API_URL}/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
