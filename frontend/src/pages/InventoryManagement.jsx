@@ -1,6 +1,6 @@
 import '../styles/Inventory.css';
 import React, { useEffect, useState } from 'react';
-import { fetchIngredients, addIngredient, updateIngredient, deleteIngredient } from './inventory';
+import { fetchIngredients, addIngredient, updateIngredient, deleteIngredient } from '..components/inventory';
 
 const InventoryManagement = () => {
   const [ingredients, setIngredients] = useState([]);
