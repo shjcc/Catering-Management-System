@@ -5,6 +5,7 @@ const { getInventory, createInventoryItem, updateInventoryItem, deleteInventoryI
 const {getCustomers, createCustomer, updateCustomer, deleteCustomer} = require('./controllers/crmController');
 
 const app = express();
+app.use(cors({origin: 'https://agreeable-beach-0fe0c0e00.5.azurestaticapps.net'}));
 app.use(cors());
 app.use(express.json());
 

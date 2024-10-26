@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import "../styles/CRM.css";
 
+// Determine the API base URL based on the environment
+const isProduction = import.meta.env.MODE === 'production';
+const API_URL = isProduction ? 'https://cms-backend-ewuo.onrender.com/api/customers' : 'http://localhost:5001/api/customers';
+
 const CRM = () => {
   const [customers, setCustomers] = useState([]);
   const [currentCustomer, setCurrentCustomer] = useState({ name: '', contact: '', orderHistory: '', preferences: '' });
@@ -11,7 +15,7 @@ const CRM = () => {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/customers');
+        const response = await fetch(API_URL);
         const data = await response.json();
         setCustomers(data);
       } catch (error) {
@@ -24,36 +28,33 @@ const CRM = () => {
 
   // Add or Update customer
   const handleSave = async () => {
-    if (isEditing) {
-      // Update existing customer
-      try {
-        await fetch(`http://localhost:5001/api/customers/${currentCustomer.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(currentCustomer),
-        });
+    const url = isEditing ? `${API_URL}/${currentCustomer.id}` : API_URL;
+    const method = isEditing ? 'PUT' : 'POST';
 
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(currentCustomer),
+      });
+      
+      const result = await response.json();
+
+      if (isEditing) {
+        // Update the customer list locally
         const updatedCustomers = [...customers];
         updatedCustomers[editingIndex] = currentCustomer;
         setCustomers(updatedCustomers);
         setIsEditing(false);
-      } catch (error) {
-        console.error('Error updating customer:', error);
+      } else {
+        // Add new customer to the list
+        setCustomers([...customers, { ...currentCustomer, id: result.id }]);
       }
-    } else {
-      // Add new customer
-      try {
-        const response = await fetch('http://localhost:5001/api/customers', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(currentCustomer),
-        });
-        const newCustomer = await response.json();
-        setCustomers([...customers, { ...currentCustomer, id: newCustomer.id }]);
-        setCurrentCustomer({ name: '', contact: '', orderHistory: '', preferences: '' }); // Reset form
-      } catch (error) {
-        console.error('Error adding customer:', error);
-      }
+
+      // Reset the form
+      setCurrentCustomer({ name: '', contact: '', orderHistory: '', preferences: '' });
+    } catch (error) {
+      console.error(`Error ${isEditing ? 'updating' : 'adding'} customer:`, error);
     }
   };
 
