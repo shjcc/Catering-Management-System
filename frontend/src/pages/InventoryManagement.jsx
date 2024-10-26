@@ -1,35 +1,6 @@
 import '../styles/Inventory.css';
 import React, { useEffect, useState } from 'react';
-
-// Sample data to simulate the backend response
-let sampleIngredients = [
-  { id: 1, name: 'Milk', quantity: 5, expiry: '2024-10-14' },
-  { id: 2, name: 'Cheese', quantity: 3, expiry: '2024-10-18' },
-  { id: 3, name: 'Eggs', quantity: 12, expiry: '2024-10-20' },
-];
-
-// Mocked functions to simulate API calls
-const fetchIngredients = async () => {
-  return sampleIngredients; // Return the sample data as a mock response
-};
-
-const addIngredient = async (ingredient) => {
-  const newId = sampleIngredients.length + 1;
-  const newIngredient = { ...ingredient, id: newId };
-  sampleIngredients.push(newIngredient); // Add to sample data
-  return newIngredient;
-};
-
-const updateIngredient = async (id, updatedIngredient) => {
-  sampleIngredients = sampleIngredients.map((ingredient) =>
-    ingredient.id === id ? { ...updatedIngredient, id } : ingredient
-  );
-  return updatedIngredient;
-};
-
-const deleteIngredient = async (id) => {
-  sampleIngredients = sampleIngredients.filter((ingredient) => ingredient.id !== id);
-};
+import { fetchIngredients, addIngredient, updateIngredient, deleteIngredient } from './inventory';
 
 const InventoryManagement = () => {
   const [ingredients, setIngredients] = useState([]);
@@ -47,7 +18,7 @@ const InventoryManagement = () => {
       const data = await fetchIngredients();
       setIngredients(data);
     } catch (error) {
-      console.error(error);
+      console.error('Error fetching ingredients:', error);
     }
   };
 
@@ -64,14 +35,14 @@ const InventoryManagement = () => {
     try {
       if (editingIngredient) {
         await updateIngredient(editingIngredient.id, newIngredient);
-        setEditingIngredient(null); // Reset editing state
+        setEditingIngredient(null);
       } else {
         await addIngredient(newIngredient);
       }
       setNewIngredient({ name: '', quantity: 0, expiry: '' });
       loadIngredients();
     } catch (error) {
-      console.error(error);
+      console.error('Error saving ingredient:', error);
     }
   };
 
@@ -89,7 +60,7 @@ const InventoryManagement = () => {
       await deleteIngredient(id);
       loadIngredients();
     } catch (error) {
-      console.error(error);
+      console.error('Error deleting ingredient:', error);
     }
   };
 

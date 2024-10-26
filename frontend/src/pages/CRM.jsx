@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "../styles/CRM.css";
 
-// Determine the API base URL based on the environment
 const isProduction = import.meta.env.MODE === 'production';
 const API_URL = isProduction ? 'https://cms-backend-ewuo.onrender.com/api/customers' : 'http://localhost:5001/api/customers';
 
