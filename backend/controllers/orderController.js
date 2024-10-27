@@ -5,8 +5,11 @@ const getOrders = (req, res) => {
     const query = 'SELECT * FROM orders';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: 'Database error' });
-        console.log(results); // Log to see if scheduled fields are included
-        res.json(results);
+        const orders = results.map(order => ({
+            ...order,
+            items: order.items ? JSON.parse(order.items) : [] // Parse items back into array
+        }));
+        res.json(orders);
     });
 };
 

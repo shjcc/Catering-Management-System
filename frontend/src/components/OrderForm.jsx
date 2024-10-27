@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import "../styles/Order.css";
 
+// Sample recipes for selection
 const availableRecipes = ["cake", "sandwich", "pancake", "cookie", "salad", "pizza", "pasta", "burger", "soup", "omelette"];
 
 const OrderForm = ({ onAddOrder }) => {
@@ -10,7 +11,7 @@ const OrderForm = ({ onAddOrder }) => {
     const [orderType, setOrderType] = useState('Pickup');
     const [scheduledDate, setScheduledDate] = useState('');
     const [scheduledTime, setScheduledTime] = useState('');
-    const [selectedItems, setSelectedItems] = useState([]); // New state for selected items
+    const [selectedItems, setSelectedItems] = useState([]); // Ensure selectedItems is an array
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,7 +19,7 @@ const OrderForm = ({ onAddOrder }) => {
         const formattedDate = dayjs(scheduledDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
         const newOrder = { customerName, status, orderType, scheduledDate: formattedDate, scheduledTime, items: selectedItems };
 
-        await onAddOrder(newOrder);
+        await onAddOrder(newOrder); // Send as array to backend
 
         setCustomerName('');
         setStatus('');
@@ -34,7 +35,7 @@ const OrderForm = ({ onAddOrder }) => {
         for (let i = 0; i < options.length; i++) {
             if (options[i].selected) selected.push(options[i].value);
         }
-        setSelectedItems(selected);
+        setSelectedItems(selected); // Store selected items as array
     };
 
     return (
