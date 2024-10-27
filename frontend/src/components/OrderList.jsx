@@ -2,7 +2,7 @@ import React from 'react';
 import dayjs from 'dayjs'; 
 import "../styles/Order.css";
 
-const OrderList = ({ orders, onDeleteOrder, onEditOrder, toggleDelivered }) => {
+const OrderList = ({ orders, onDeleteOrder, onEditOrder }) => {
     return (
         <ul className="order-list">
             {orders.map((order) => (
@@ -12,6 +12,7 @@ const OrderList = ({ orders, onDeleteOrder, onEditOrder, toggleDelivered }) => {
                         <div><strong>Status:</strong> {order.status}</div>
                         <div><strong>Type:</strong> {order.orderType}</div>
                         <div><strong>Scheduled:</strong> {dayjs(order.scheduledDate).format('YYYY-MM-DD')} {order.scheduledTime}</div>
+                        <div><strong>Items:</strong> {order.items ? order.items.join(", ") : 'None'}</div> {/* Display selected items */}
                     </div>
                     <div className="order-actions">
                         <button className="edit-button" onClick={() => onEditOrder(order)}>Edit</button>

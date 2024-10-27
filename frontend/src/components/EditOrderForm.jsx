@@ -2,15 +2,20 @@ import React, { useState } from 'react';
 import "../styles/Order.css";
 
 const EditOrderForm = ({ order, onUpdateOrder, onCancel }) => {
-    const [customerName, setCustomerName] = useState(order.customerName);
-    const [status, setStatus] = useState(order.status); 
-    const [orderType, setOrderType] = useState(order.orderType);
-    const [scheduledDate, setScheduledDate] = useState(order.scheduledDate);
-    const [scheduledTime, setScheduledTime] = useState(order.scheduledTime);
+    const [selectedItems, setSelectedItems] = useState(order.items || []);
+
+    const handleItemChange = (e) => {
+        const options = e.target.options;
+        const selected = [];
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].selected) selected.push(options[i].value);
+        }
+        setSelectedItems(selected);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const updatedOrder = { customerName, status, orderType, scheduledDate, scheduledTime };
+        const updatedOrder = { ...order, items: selectedItems };
         await onUpdateOrder(order.id, updatedOrder);
     };
 
@@ -61,7 +66,16 @@ const EditOrderForm = ({ order, onUpdateOrder, onCancel }) => {
                 required
                 className="order-time"
             />
-            
+            <select 
+                multiple
+                value={selectedItems}
+                onChange={handleItemChange}
+                className="order-select"
+            >
+                {availableRecipes.map((recipe) => (
+                    <option key={recipe} value={recipe}>{recipe}</option>
+                ))}
+            </select>
             <button type="submit" className="order-button">Update Order</button>
             <button type="button" onClick={onCancel} className="cancel-button">Cancel</button>
         </form>

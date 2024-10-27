@@ -2,19 +2,21 @@ import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import "../styles/Order.css";
 
+const availableRecipes = ["cake", "sandwich", "pancake", "cookie", "salad", "pizza", "pasta", "burger", "soup", "omelette"];
+
 const OrderForm = ({ onAddOrder }) => {
     const [customerName, setCustomerName] = useState('');
     const [status, setStatus] = useState('');
     const [orderType, setOrderType] = useState('Pickup');
     const [scheduledDate, setScheduledDate] = useState('');
     const [scheduledTime, setScheduledTime] = useState('');
+    const [selectedItems, setSelectedItems] = useState([]); // New state for selected items
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const formattedDate = dayjs(scheduledDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
-
-        const newOrder = { customerName, status, orderType, scheduledDate: formattedDate, scheduledTime };
+        const newOrder = { customerName, status, orderType, scheduledDate: formattedDate, scheduledTime, items: selectedItems };
 
         await onAddOrder(newOrder);
 
@@ -23,6 +25,16 @@ const OrderForm = ({ onAddOrder }) => {
         setOrderType('Pickup');
         setScheduledDate('');
         setScheduledTime('');
+        setSelectedItems([]);
+    };
+
+    const handleItemChange = (e) => {
+        const options = e.target.options;
+        const selected = [];
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].selected) selected.push(options[i].value);
+        }
+        setSelectedItems(selected);
     };
 
     return (
@@ -67,6 +79,16 @@ const OrderForm = ({ onAddOrder }) => {
                 required
                 className="order-time"
             />
+            <select 
+                multiple
+                value={selectedItems}
+                onChange={handleItemChange}
+                className="order-select"
+            >
+                {availableRecipes.map((recipe) => (
+                    <option key={recipe} value={recipe}>{recipe}</option>
+                ))}
+            </select>
             <button type="submit" className="order-button">Add Order</button>
         </form>
     );

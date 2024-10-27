@@ -1,4 +1,4 @@
-const { db } = require('../config'); 
+const { db } = require('../config');
 
 // Get all orders
 const getOrders = (req, res) => {
@@ -10,24 +10,22 @@ const getOrders = (req, res) => {
     });
 };
 
-// Create a new order
+// create a new order
 const createOrder = (req, res) => {
-    const { customerName, status, orderType, scheduledDate, scheduledTime } = req.body;
-    const query = 'INSERT INTO orders (customerName, status, orderType, scheduledDate, scheduledTime) VALUES (?, ?, ?, ?, ?)';
-    
-    db.query(query, [customerName, status, orderType, scheduledDate, scheduledTime], (err, result) => {
+    const { customerName, status, orderType, scheduledDate, scheduledTime, items } = req.body;
+    const query = 'INSERT INTO orders (customerName, status, orderType, scheduledDate, scheduledTime, items) VALUES (?, ?, ?, ?, ?, ?)';
+    db.query(query, [customerName, status, orderType, scheduledDate, scheduledTime, JSON.stringify(items)], (err, result) => {
         if (err) return res.status(500).json({ error: 'Database error' });
-        res.json({ message: 'Order added successfully', orderId: result.insertId });
+        res.json({ message: 'Order created successfully', id: result.insertId });
     });
 };
 
-// Update an existing order
+// update an order
 const updateOrder = (req, res) => {
     const { id } = req.params;
-    const { customerName, status, orderType, scheduledDate, scheduledTime } = req.body;
-    const query = 'UPDATE orders SET customerName = ?, status = ?, orderType = ?, scheduledDate = ?, scheduledTime = ? WHERE id = ?';
-    
-    db.query(query, [customerName, status, orderType, scheduledDate, scheduledTime, id], (err, result) => {
+    const { customerName, status, orderType, scheduledDate, scheduledTime, items } = req.body;
+    const query = 'UPDATE orders SET customerName = ?, status = ?, orderType = ?, scheduledDate = ?, scheduledTime = ?, items = ? WHERE id = ?';
+    db.query(query, [customerName, status, orderType, scheduledDate, scheduledTime, JSON.stringify(items), id], (err) => {
         if (err) return res.status(500).json({ error: 'Database error' });
         res.json({ message: 'Order updated successfully' });
     });
@@ -37,7 +35,7 @@ const updateOrder = (req, res) => {
 const deleteOrder = (req, res) => {
     const { id } = req.params;
     const query = 'DELETE FROM orders WHERE id = ?';
-    
+
     db.query(query, [id], (err, result) => {
         if (err) return res.status(500).json({ error: 'Database error' });
         res.json({ message: 'Order deleted successfully' });
