@@ -12,7 +12,7 @@ const OrderList = ({ orders, onDeleteOrder, onEditOrder }) => {
                         <div><strong>Status:</strong> {order.status}</div>
                         <div><strong>Type:</strong> {order.orderType}</div>
                         <div><strong>Scheduled:</strong> {dayjs(order.scheduledDate).format('YYYY-MM-DD')} {order.scheduledTime}</div>
-                        <div><strong>Items:</strong> {Array.isArray(order.items) ? order.items.join(", ") : 'None'}</div> {/* Ensure items is an array */}
+                        <div><strong>Items:</strong> {order.items && order.items.join(', ')}</div> {/* Display multiple items */}
                     </div>
                     <div className="order-actions">
                         <button className="edit-button" onClick={() => onEditOrder(order)}>Edit</button>

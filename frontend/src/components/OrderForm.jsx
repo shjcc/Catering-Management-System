@@ -2,40 +2,34 @@ import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import "../styles/Order.css";
 
-// Sample recipes for selection
-const availableRecipes = ["cake", "sandwich", "pancake", "cookie", "salad", "pizza", "pasta", "burger", "soup", "omelette"];
-
 const OrderForm = ({ onAddOrder }) => {
     const [customerName, setCustomerName] = useState('');
     const [status, setStatus] = useState('');
     const [orderType, setOrderType] = useState('Pickup');
     const [scheduledDate, setScheduledDate] = useState('');
     const [scheduledTime, setScheduledTime] = useState('');
-    const [selectedItems, setSelectedItems] = useState([]); // Ensure selectedItems is an array
+    const [items, setItems] = useState([]);  // Adjusting to an array for multiple items
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const formattedDate = dayjs(scheduledDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
-        const newOrder = { customerName, status, orderType, scheduledDate: formattedDate, scheduledTime, items: selectedItems };
 
-        await onAddOrder(newOrder); // Send as array to backend
+        const newOrder = { customerName, status, orderType, scheduledDate: formattedDate, scheduledTime, items };
+
+        await onAddOrder(newOrder);
 
         setCustomerName('');
         setStatus('');
         setOrderType('Pickup');
         setScheduledDate('');
         setScheduledTime('');
-        setSelectedItems([]);
+        setItems([]);  // Reset items
     };
 
     const handleItemChange = (e) => {
-        const options = e.target.options;
-        const selected = [];
-        for (let i = 0; i < options.length; i++) {
-            if (options[i].selected) selected.push(options[i].value);
-        }
-        setSelectedItems(selected); // Store selected items as array
+        const selectedItems = Array.from(e.target.selectedOptions, option => option.value);
+        setItems(selectedItems);
     };
 
     return (
@@ -80,16 +74,27 @@ const OrderForm = ({ onAddOrder }) => {
                 required
                 className="order-time"
             />
+
+            {/* Multi-select input for items */}
             <select 
                 multiple
-                value={selectedItems}
+                value={items}
                 onChange={handleItemChange}
+                required
                 className="order-select"
             >
-                {availableRecipes.map((recipe) => (
-                    <option key={recipe} value={recipe}>{recipe}</option>
-                ))}
+                <option value="Cake">Cake</option>
+                <option value="Sandwich">Sandwich</option>
+                <option value="Pancake">Pancake</option>
+                <option value="Cookie">Cookie</option>
+                <option value="Salad">Salad</option>
+                <option value="Pizza">Pizza</option>
+                <option value="Pasta">Pasta</option>
+                <option value="Burger">Burger</option>
+                <option value="Soup">Soup</option>
+                <option value="Omelette">Omelette</option>
             </select>
+
             <button type="submit" className="order-button">Add Order</button>
         </form>
     );
