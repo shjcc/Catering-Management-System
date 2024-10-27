@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import "../styles/Order.css";
 
-const EditOrderForm = ({ order, onUpdateOrder, onCancel }) => {
+const EditOrderForm = ({ order, onUpdateOrder, onCancel, availableRecipes = [] }) => {
+    const [customerName, setCustomerName] = useState(order.customerName || '');
+    const [status, setStatus] = useState(order.status || 'pending');
+    const [orderType, setOrderType] = useState(order.orderType || 'Pickup');
+    const [scheduledDate, setScheduledDate] = useState(order.scheduledDate || '');
+    const [scheduledTime, setScheduledTime] = useState(order.scheduledTime || '');
     const [selectedItems, setSelectedItems] = useState(order.items || []);
 
     const handleItemChange = (e) => {
@@ -15,7 +20,15 @@ const EditOrderForm = ({ order, onUpdateOrder, onCancel }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const updatedOrder = { ...order, items: selectedItems };
+        const updatedOrder = {
+            ...order,
+            customerName,
+            status,
+            orderType,
+            scheduledDate,
+            scheduledTime,
+            items: selectedItems,
+        };
         await onUpdateOrder(order.id, updatedOrder);
     };
 
@@ -29,7 +42,7 @@ const EditOrderForm = ({ order, onUpdateOrder, onCancel }) => {
                 required
                 className="order-input"
             />
-            
+
             {/* Dropdown for status */}
             <select
                 value={status}
@@ -51,7 +64,7 @@ const EditOrderForm = ({ order, onUpdateOrder, onCancel }) => {
                 <option value="Pickup">Pickup</option>
                 <option value="Delivery">Delivery</option>
             </select>
-            
+
             <input
                 type="date"
                 value={scheduledDate}
